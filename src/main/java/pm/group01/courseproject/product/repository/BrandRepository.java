@@ -1,0 +1,23 @@
+package pm.group01.courseproject.product.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import pm.group01.courseproject.product.model.Brand;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+/*
+ * @author Battuguldur Ganbold (986874)
+ */
+
+@Repository
+@Transactional
+public interface BrandRepository extends JpaRepository<Brand,Integer> {
+    @Query(value = "select p.* " +
+            "from Brand p " +
+            "where p.name LIKE %:name% and p.code LIKE %:code% ", nativeQuery = true)
+    List<Brand> findAllBySomeFields(@Param("code") String code, @Param("name") String name);
+}
